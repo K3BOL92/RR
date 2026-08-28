@@ -1,4 +1,4 @@
-const CACHE_NAME = 'idarat-ratbi-v2';
+const CACHE_NAME = 'idarat-ratbi-v3';
 const BASE = '/RR/';
 const APP_SHELL = [
   BASE,
