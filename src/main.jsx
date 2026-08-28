@@ -25,6 +25,7 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
 }
 
 const KEY = 'idarat-ratbi-shop-v1'
+const dateLocale = 'ar-SA-u-ca-gregory'
 const money = n => new Intl.NumberFormat('ar-SA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(n) || 0)
 const dateKey = d => {
   const x = new Date(d)
@@ -34,7 +35,7 @@ const monthKey = d => dateKey(d).slice(0, 7)
 const parseDate = value => new Date(`${value}T12:00:00`)
 const today = () => dateKey(new Date())
 const currentMonth = () => monthKey(new Date())
-const monthLabel = key => new Intl.DateTimeFormat('ar-SA', { month: 'long', year: 'numeric' }).format(parseDate(`${key}-01`))
+const monthLabel = key => new Intl.DateTimeFormat(dateLocale, { month: 'long', year: 'numeric', calendar: 'gregory' }).format(parseDate(`${key}-01`))
 const daysInMonth = key => new Date(Number(key.slice(0, 4)), Number(key.slice(5, 7)), 0).getDate()
 const defaultExpenses = () => ({ flowers: 0, goods: 0, rent: 0, salaries: 0, electricity: 0, tax: 0 })
 
@@ -244,7 +245,7 @@ function SaleSheet({ form, setForm, edit, onClose, onSave }) {
   return <div className="veil" onMouseDown={e => e.target === e.currentTarget && onClose()}><div className="sheet">
     <div className="handle" /><div className="sheet-head"><div><span>راوند روز</span><h2>{edit ? 'تعديل العملية' : 'إضافة عملية'}</h2></div><button onClick={onClose}><X size={19} /></button></div>
     <label className="field"><span>حالة المبلغ</span><div className="segmented"><button className={form.status === 'received' ? 'selected' : ''} onClick={() => setForm({ ...form, status: 'received' })}><Check size={16} /> مستلم</button><button className={form.status === 'unreceived' ? 'selected' : ''} onClick={() => setForm({ ...form, status: 'unreceived' })}>غير مستلم</button></div></label>
-    <label className="field"><span>تاريخ الطلب</span><div className="input-icon"><CalendarDays size={18} /><input type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} /></div></label>
+    <label className="field"><span>تاريخ الطلب (ميلادي)</span><div className="input-icon"><CalendarDays size={18} /><input lang="en-CA" type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} /></div></label>
     <label className="field"><span>المبلغ</span><div className="money-input"><input autoFocus type="number" min="0" step="0.01" inputMode="decimal" placeholder="0.00" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} /><b>ريال</b></div></label>
     <label className="field"><span>مصدر المبيعات</span><select value={form.source} onChange={e => setForm({ ...form, source: e.target.value })}><option value="cash">كاش</option><option value="pos">نقاط بيع</option><option value="bank">تحويل بنكي</option><option value="hungerstation">هنقرستيشن</option></select></label>
     <label className="field"><span>الملاحظات <small>اختياري</small></span><textarea rows="3" placeholder="اكتب أي ملاحظة..." value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} /></label>
@@ -254,7 +255,7 @@ function SaleSheet({ form, setForm, edit, onClose, onSave }) {
 
 function StatusBadge({ status }) { return <span className={`badge ${status === 'received' ? 'received' : 'unreceived'}`}>{status === 'received' ? 'مستلم' : 'غير مستلم'}</span> }
 function sourceLabel(source) { return ({ cash: 'كاش', pos: 'نقاط بيع', bank: 'تحويل بنكي', hungerstation: 'هنقرستيشن' })[source] || source }
-function formatDate(value) { return new Intl.DateTimeFormat('ar-SA', { day: 'numeric', month: 'short', year: 'numeric' }).format(parseDate(value)) }
+function formatDate(value) { return new Intl.DateTimeFormat(dateLocale, { day: 'numeric', month: 'short', year: 'numeric', calendar: 'gregory' }).format(parseDate(value)) }
 function moveMonth(key, setter, amount) { const d = new Date(Number(key.slice(0, 4)), Number(key.slice(5, 7)) - 1 + amount, 1); setter(monthKey(d)) }
 
 createRoot(document.getElementById('root')).render(<App />)
