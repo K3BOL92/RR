@@ -1,5 +1,5 @@
 const CACHE_NAME = 'idarat-ratbi-v2';
-const BASE = '/idarat-ratbi/';
+const BASE = '/RR/';
 const APP_SHELL = [
   BASE,
   BASE + 'index.html',
