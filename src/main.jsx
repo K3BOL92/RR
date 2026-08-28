@@ -108,7 +108,7 @@ function App() {
 
   return (
     <div className="app" dir="rtl">
-      <main>
+      <main style={{ paddingTop: 'max(32px, calc(20px + env(safe-area-inset-top)))' }}>
         {tab === 'home' && <HomePage onAdd={openAdd} salesTotal={salesTotal} receivedTotal={receivedTotal} unreceivedTotal={unreceivedTotal} netProfit={netProfit} />}
         {tab === 'sales' && <SalesPage filter={salesFilter} setFilter={setSalesFilter} sales={data.sales} onEdit={openEdit} onDelete={deleteSale} />}
         {tab === 'expenses' && <ExpensesPage expenses={expenses} total={expenseTotal} sales={salesThisMonth} netProfit={netProfit} onChange={saveExpenses} onReset={resetCurrentMonth} />}
